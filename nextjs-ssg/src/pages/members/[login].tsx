@@ -1,6 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/dist/client/router";
 
 export default function Members({ user }: any) {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <p>Carregando Pãgina...</p>;
+  }
   return (
     <div>
       <img
@@ -30,7 +36,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 };
 
@@ -45,5 +51,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       user: data,
     },
+    revalidate: 10,
   };
 };
