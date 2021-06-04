@@ -16,8 +16,20 @@ export default function Members({ user }: any) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await fetch(
+    `https://api.github.com/orgs/rocketseat/members`
+  );
+
+  const data = await response.json();
+
+  const paths = data.map((member: any) => {
+    return { params: { login: member.login } };
+  });
+
+  paths.push({ params: { login: "thaisascastro" } });
+
   return {
-    paths: [],
+    paths,
     fallback: false,
   };
 };
@@ -26,6 +38,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { login }: any = context.params;
 
   const response = await fetch(`https://api.github.com/users/${login}`);
+
   const data = await response.json();
 
   return {
