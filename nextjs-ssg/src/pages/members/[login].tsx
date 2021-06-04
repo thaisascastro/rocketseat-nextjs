@@ -7,6 +7,7 @@ export default function Members({ user }: any) {
   if (isFallback) {
     return <p>Carregando Pãgina...</p>;
   }
+
   return (
     <div>
       <img
@@ -31,8 +32,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = data.map((member: any) => {
     return { params: { login: member.login } };
   });
-
-  paths.push({ params: { login: "thaisascastro" } });
 
   return {
     paths,
