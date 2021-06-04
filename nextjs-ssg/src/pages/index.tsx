@@ -1,11 +1,25 @@
-export default function Home() {
-  return <h1>Hello world!</h1>;
+import { GetStaticProps } from "next";
+
+export default function Home({ org }: any) {
+  return (
+    <div>
+      <h1>{org.login}</h1>
+      <h3>{org.description}</h3>
+
+      <p>
+        Site: <a href={org.blog}>{org.blog}</a>
+      </p>
+    </div>
+  );
 }
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await fetch("https://api.github.com/orgs/rocketseat");
   const data = await response.json();
   return {
-    props: {},
+    props: {
+      org: data,
+    },
+    revilidate: 10,
   };
 };
